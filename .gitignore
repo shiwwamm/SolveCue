@@ -1,0 +1,49 @@
+# --- Agent / local dev tooling ---
+.agents/
+skills-lock.json
+.scratch/
+
+# --- Dependencies ---
+node_modules/
+
+# --- Build output ---
+dist/
+build/
+out/
+*.tsbuildinfo
+
+# --- Environment & secrets ---
+.env
+.env.*
+!.env.example
+*.pem
+
+# --- Chrome extension packaging ---
+*.crx
+*.zip
+
+# --- Test & coverage ---
+coverage/
+.nyc_output/
+
+# --- Logs & caches ---
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.cache/
+.turbo/
+.vite/
+.eslintcache
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+
+# --- Editors / IDEs ---
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.cursor/

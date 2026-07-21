@@ -1,0 +1,70 @@
+#solvecue-root {
+  all: initial;
+  font-family: system-ui, sans-serif;
+}
+
+#solvecue-root .solvecue-panel {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 2147483647;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+}
+
+#solvecue-root .solvecue-button,
+#solvecue-root .solvecue-grade-button {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+#solvecue-root .solvecue-button {
+  background: #ffa116;
+  color: #1a1a1a;
+}
+
+#solvecue-root .solvecue-grade-picker {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px;
+  border-radius: 10px;
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  min-width: 220px;
+}
+
+#solvecue-root .solvecue-grade-picker.open {
+  display: flex;
+}
+
+#solvecue-root .solvecue-grade-picker p {
+  margin: 0 0 4px;
+  font-size: 13px;
+  color: #444;
+}
+
+#solvecue-root .solvecue-grade-button {
+  background: #f5f5f5;
+  color: #1a1a1a;
+  text-align: left;
+}
+
+#solvecue-root .solvecue-grade-button:hover {
+  background: #ebebeb;
+}
+
+#solvecue-root .solvecue-status {
+  font-size: 12px;
+  color: #2f6f2f;
+  background: #eef8ee;
+  border-radius: 6px;
+  padding: 6px 10px;
+}

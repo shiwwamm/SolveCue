@@ -17,6 +17,7 @@ export interface StorageAreaLike {
 export interface StorageAdapter {
   getProblem(id: string): Promise<Problem | null>;
   saveProblem(problem: Problem): Promise<void>;
+  listProblems(): Promise<Problem[]>;
   getSettings(): Promise<Settings>;
   saveSettings(settings: Settings): Promise<void>;
 }
@@ -43,6 +44,13 @@ export function createStorageAdapter(area: StorageAreaLike): StorageAdapter {
       const problems = await readProblems();
       problems[problem.id] = problem;
       await area.set({ [PROBLEMS_KEY]: problems });
+    },
+
+    async listProblems() {
+      const problems = await readProblems();
+      return Object.values(problems).sort((left, right) =>
+        left.title.localeCompare(right.title),
+      );
     },
 
     async getSettings() {

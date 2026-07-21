@@ -53,13 +53,18 @@ function mountCaptureUi(): void {
     button.addEventListener("click", async () => {
       captureButton.disabled = true;
       try {
+        const leetcodeTag = parseLeetCodeTag(document);
+        if (!leetcodeTag) {
+          console.warn("[SolveCue] Could not parse LeetCode difficulty tag");
+        }
+
         const problem = await captureProblem(
           storage,
           {
             id: slug,
             title: parseProblemTitle(document, slug),
             url: window.location.href,
-            leetcodeTag: parseLeetCodeTag(document),
+            leetcodeTag: leetcodeTag ?? "Medium",
           },
           option.grade,
           () => new Date(),

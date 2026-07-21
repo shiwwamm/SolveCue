@@ -1,16 +1,9 @@
-import type { Grade, Problem, Settings } from "../types/domain";
+import type { Problem, Settings } from "../types/domain";
 
 export type Clock = () => Date;
 export type Rng = () => number;
 
-export function review(
-  _problem: Problem,
-  _grade: Grade,
-  _now: Clock,
-  _rng: Rng,
-): Problem {
-  throw new Error("Not implemented");
-}
+export { review } from "./review";
 
 export function placeReview(
   _problem: Problem,

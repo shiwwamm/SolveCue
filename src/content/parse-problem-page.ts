@@ -21,26 +21,60 @@ export function parseProblemTitle(document: Document, slug: string): string {
     .join(" ");
 }
 
-export function parseLeetCodeTag(document: Document): LeetCodeTag {
-  const difficultyElement = document.querySelector(
-    '[class*="text-difficulty-Easy"], [class*="text-difficulty-Medium"], [class*="text-difficulty-Hard"], [diff]',
-  );
+function tagFromClassName(className: string): LeetCodeTag | null {
+  const normalized = className.toLowerCase();
 
-  const className = difficultyElement?.className ?? "";
-  if (className.includes("Easy")) {
+  if (normalized.includes("text-difficulty-easy")) {
     return "Easy";
   }
-  if (className.includes("Hard")) {
+  if (normalized.includes("text-difficulty-hard")) {
     return "Hard";
   }
-  if (className.includes("Medium")) {
+  if (normalized.includes("text-difficulty-medium")) {
     return "Medium";
   }
 
-  const text = difficultyElement?.textContent?.trim();
+  return null;
+}
+
+function tagFromText(text: string): LeetCodeTag | null {
   if (text === "Easy" || text === "Medium" || text === "Hard") {
     return text;
   }
 
-  return "Medium";
+  return null;
+}
+
+function parseFromElement(element: Element): LeetCodeTag | null {
+  const fromClass = tagFromClassName(element.className);
+  if (fromClass) {
+    return fromClass;
+  }
+
+  return tagFromText(element.textContent?.trim() ?? "");
+}
+
+export function parseLeetCodeTag(document: Document): LeetCodeTag | null {
+  const titleElement = document.querySelector(
+    '[data-cy="question-title"], [class*="text-title-large"], h1[class*="title"]',
+  );
+
+  if (titleElement) {
+    let ancestor: Element | null = titleElement.parentElement;
+    while (ancestor) {
+      const difficultyElement = ancestor.querySelector(
+        '[class*="text-difficulty-"]',
+      );
+      const parsed = difficultyElement
+        ? parseFromElement(difficultyElement)
+        : null;
+      if (parsed) {
+        return parsed;
+      }
+      ancestor = ancestor.parentElement;
+    }
+  }
+
+  const fallback = document.querySelector('[class*="text-difficulty-"]');
+  return fallback ? parseFromElement(fallback) : null;
 }

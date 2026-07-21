@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "SolveCue",
+  "description": "Spaced-repetition review for LeetCode problems.",
+  "version": "0.1.0",
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "SolveCue"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://leetcode.com/problems/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "permissions": ["storage"]
+}

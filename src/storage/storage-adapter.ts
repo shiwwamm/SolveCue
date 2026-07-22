@@ -7,6 +7,7 @@ import {
 const PROBLEMS_KEY = "problems";
 const SETTINGS_KEY = "settings";
 const PENDING_REVIEWS_KEY = "pendingReviews";
+const LAST_NOTIFIED_DAY_KEY = "lastNotifiedDay";
 
 export interface StorageAreaLike {
   get(
@@ -24,6 +25,8 @@ export interface StorageAdapter {
   markPendingReview(id: string): Promise<void>;
   isPendingReview(id: string): Promise<boolean>;
   clearPendingReview(id: string): Promise<void>;
+  getLastNotifiedDay(): Promise<string | null>;
+  setLastNotifiedDay(day: string): Promise<void>;
 }
 
 export function createStorageAdapter(area: StorageAreaLike): StorageAdapter {
@@ -102,6 +105,16 @@ export function createStorageAdapter(area: StorageAreaLike): StorageAdapter {
 
       delete pending[id];
       await area.set({ [PENDING_REVIEWS_KEY]: pending });
+    },
+
+    async getLastNotifiedDay() {
+      const result = await area.get(LAST_NOTIFIED_DAY_KEY);
+      const day = result[LAST_NOTIFIED_DAY_KEY];
+      return typeof day === "string" ? day : null;
+    },
+
+    async setLastNotifiedDay(day) {
+      await area.set({ [LAST_NOTIFIED_DAY_KEY]: day });
     },
   };
 }

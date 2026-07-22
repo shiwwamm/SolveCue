@@ -9,7 +9,10 @@
   <body>
     <main class="popup">
       <h1>SolveCue</h1>
-      <p id="empty-state" class="placeholder">No captured problems yet.</p>
+      <p id="queue-count" class="queue-count">Loading…</p>
+      <p id="empty-state" class="placeholder" hidden>
+        No reviews due today.
+      </p>
       <ul id="problem-list" class="problem-list"></ul>
     </main>
     <script type="module" src="./popup.ts"></script>

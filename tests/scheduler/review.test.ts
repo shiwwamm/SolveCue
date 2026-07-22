@@ -86,4 +86,41 @@ describe("review", () => {
     expect(easyTag.currentInterval).toBe(hardTag.currentInterval);
     expect(easyTag.softDueDate).toBe(hardTag.softDueDate);
   });
+
+  it("applies interval fuzz for eligible grades when the RNG is biased", () => {
+    const lowFuzz = () => 0;
+    const highFuzz = () => 1;
+    const problem = createProblem({
+      currentInterval: 10,
+      repetitions: 1,
+      easeFactor: 2.0,
+    });
+
+    const shortened = review(problem, "solid", fixedNow, lowFuzz);
+    const lengthened = review(problem, "solid", fixedNow, highFuzz);
+
+    expect(shortened.currentInterval).toBe(18);
+    expect(lengthened.currentInterval).toBe(22);
+  });
+
+  it("does not fuzz failures or 1-day intervals", () => {
+    const highFuzz = () => 1;
+    const failure = review(
+      createProblem({ currentInterval: 14, repetitions: 2 }),
+      "couldnt-solve",
+      fixedNow,
+      highFuzz,
+    );
+    const oneDaySolid = review(
+      createProblem({ currentInterval: 1, repetitions: 1, easeFactor: 1.3 }),
+      "solid",
+      fixedNow,
+      highFuzz,
+    );
+
+    expect(failure.currentInterval).toBe(1);
+    expect(failure.softDueDate).toBe("2026-07-22");
+    // priorInterval 1 × ease 1.3 → 1 before fuzz; 1-day intervals skip fuzz.
+    expect(oneDaySolid.currentInterval).toBe(1);
+  });
 });

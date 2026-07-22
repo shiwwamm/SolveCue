@@ -90,4 +90,16 @@ describe("storage adapter", () => {
 
     expect(retrieved).toEqual(sampleSettings);
   });
+
+  it("tracks pending reviews opened from the queue", async () => {
+    const storage = createStorageAdapter(createFakeStorage());
+
+    expect(await storage.isPendingReview("two-sum")).toBe(false);
+
+    await storage.markPendingReview("two-sum");
+    expect(await storage.isPendingReview("two-sum")).toBe(true);
+
+    await storage.clearPendingReview("two-sum");
+    expect(await storage.isPendingReview("two-sum")).toBe(false);
+  });
 });

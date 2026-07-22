@@ -41,6 +41,12 @@ function renderTodayQueue(problems: Problem[], today: string): void {
     title.textContent = problem.title;
     title.target = "_blank";
     title.rel = "noreferrer";
+    title.addEventListener("click", (event) => {
+      event.preventDefault();
+      void storage.markPendingReview(problem.id).then(() => {
+        window.open(problem.url, "_blank", "noreferrer");
+      });
+    });
 
     const meta = document.createElement("div");
     meta.className = "problem-meta";

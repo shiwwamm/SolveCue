@@ -6,6 +6,8 @@ import {
 
 const PROBLEMS_KEY = "problems";
 const SETTINGS_KEY = "settings";
+const PENDING_REVIEWS_KEY = "pendingReviews";
+const LAST_NOTIFIED_DAY_KEY = "lastNotifiedDay";
 
 export interface StorageAreaLike {
   get(
@@ -20,6 +22,11 @@ export interface StorageAdapter {
   listProblems(): Promise<Problem[]>;
   getSettings(): Promise<Settings>;
   saveSettings(settings: Settings): Promise<void>;
+  markPendingReview(id: string): Promise<void>;
+  isPendingReview(id: string): Promise<boolean>;
+  clearPendingReview(id: string): Promise<void>;
+  getLastNotifiedDay(): Promise<string | null>;
+  setLastNotifiedDay(day: string): Promise<void>;
 }
 
 export function createStorageAdapter(area: StorageAreaLike): StorageAdapter {
@@ -32,6 +39,17 @@ export function createStorageAdapter(area: StorageAreaLike): StorageAdapter {
     }
 
     return problems as Record<string, Problem>;
+  }
+
+  async function readPendingReviews(): Promise<Record<string, true>> {
+    const result = await area.get(PENDING_REVIEWS_KEY);
+    const pending = result[PENDING_REVIEWS_KEY];
+
+    if (!pending || typeof pending !== "object") {
+      return {};
+    }
+
+    return pending as Record<string, true>;
   }
 
   return {
@@ -66,6 +84,37 @@ export function createStorageAdapter(area: StorageAreaLike): StorageAdapter {
 
     async saveSettings(settings) {
       await area.set({ [SETTINGS_KEY]: settings });
+    },
+
+    async markPendingReview(id) {
+      const pending = await readPendingReviews();
+      pending[id] = true;
+      await area.set({ [PENDING_REVIEWS_KEY]: pending });
+    },
+
+    async isPendingReview(id) {
+      const pending = await readPendingReviews();
+      return pending[id] === true;
+    },
+
+    async clearPendingReview(id) {
+      const pending = await readPendingReviews();
+      if (!(id in pending)) {
+        return;
+      }
+
+      delete pending[id];
+      await area.set({ [PENDING_REVIEWS_KEY]: pending });
+    },
+
+    async getLastNotifiedDay() {
+      const result = await area.get(LAST_NOTIFIED_DAY_KEY);
+      const day = result[LAST_NOTIFIED_DAY_KEY];
+      return typeof day === "string" ? day : null;
+    },
+
+    async setLastNotifiedDay(day) {
+      await area.set({ [LAST_NOTIFIED_DAY_KEY]: day });
     },
   };
 }

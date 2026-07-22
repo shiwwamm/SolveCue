@@ -67,4 +67,6 @@
   background: #eef8ee;
   border-radius: 6px;
   padding: 6px 10px;
+  max-width: 240px;
+  text-align: right;
 }

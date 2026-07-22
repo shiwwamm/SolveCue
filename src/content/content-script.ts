@@ -8,6 +8,7 @@ import {
   parseProblemSlug,
   parseProblemTitle,
 } from "./parse-problem-page";
+import { mountReviewPanel } from "./review-panel";
 import { resetToDefaultCode } from "./reset-editor";
 
 const GRADE_OPTIONS: Array<{ grade: Grade; label: string }> = [
@@ -225,6 +226,7 @@ marker.content = "active";
 document.head.appendChild(marker);
 
 watchSpaNavigation();
+mountReviewPanel();
 
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", () => {

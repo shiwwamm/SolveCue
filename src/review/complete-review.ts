@@ -29,6 +29,7 @@ export async function completeReview(
     reviewed,
     buildCalendarLoad(others),
     settings.dailyTargetCap,
+    settings.dayRolloverHour,
     now,
     rng,
   );

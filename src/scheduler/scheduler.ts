@@ -1,6 +1,6 @@
 import {
-  addCalendarDays,
   eachCalendarDay,
+  nextCalendarDay,
   schedulingDay,
 } from "./dates";
 import type { Problem, Settings } from "../types/domain";
@@ -21,13 +21,14 @@ export function placeReview(
   problem: Problem,
   calendarLoad: Record<string, number>,
   cap: number,
+  rolloverHour: number,
   now: Clock,
   _rng: Rng,
 ): Problem {
   if (isFailure(problem)) {
     return {
       ...problem,
-      softDueDate: addCalendarDays(now(), 1),
+      softDueDate: nextCalendarDay(schedulingDay(now(), rolloverHour)),
     };
   }
 

@@ -19,6 +19,10 @@ export function schedulingDay(date: Date, rolloverHour: number): string {
   return toCalendarDate(shifted);
 }
 
+export function nextCalendarDay(date: string): string {
+  return addCalendarDays(parseCalendarDate(date), 1);
+}
+
 export function eachCalendarDay(
   startDate: string,
   endDate: string,

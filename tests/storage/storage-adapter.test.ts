@@ -102,4 +102,13 @@ describe("storage adapter", () => {
     await storage.clearPendingReview("two-sum");
     expect(await storage.isPendingReview("two-sum")).toBe(false);
   });
+
+  it("persists the last notified scheduling day", async () => {
+    const storage = createStorageAdapter(createFakeStorage());
+
+    expect(await storage.getLastNotifiedDay()).toBeNull();
+
+    await storage.setLastNotifiedDay("2026-07-22");
+    expect(await storage.getLastNotifiedDay()).toBe("2026-07-22");
+  });
 });

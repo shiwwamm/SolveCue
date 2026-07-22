@@ -9,8 +9,50 @@ body {
 }
 
 .popup h1 {
-  margin: 0 0 4px;
+  margin: 0 0 12px;
   font-size: 1.25rem;
+}
+
+.popup h2 {
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.settings,
+.queue,
+.paused {
+  margin-bottom: 16px;
+}
+
+.settings-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.field {
+  display: grid;
+  gap: 4px;
+}
+
+.field-label {
+  font-size: 12px;
+  color: #444;
+}
+
+.field input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 8px;
+  border: 1px solid #d4d4d4;
+  border-radius: 6px;
+  font: inherit;
+}
+
+.settings-hint {
+  margin: 8px 0 0;
+  font-size: 11px;
+  color: #777;
 }
 
 .queue-count {
@@ -39,16 +81,42 @@ body {
   padding: 10px 12px;
 }
 
+.problem-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
 .problem-title {
   display: block;
   color: #1a1a1a;
   font-weight: 600;
   text-decoration: none;
-  margin-bottom: 4px;
 }
 
 .problem-title:hover {
   text-decoration: underline;
+}
+
+.paused-title {
+  flex: 1;
+}
+
+.problem-action {
+  flex-shrink: 0;
+  border: 1px solid #d4d4d4;
+  border-radius: 6px;
+  background: #fff;
+  color: #333;
+  font-size: 11px;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.problem-action:hover {
+  background: #f5f5f5;
 }
 
 .problem-meta {

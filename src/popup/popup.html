@@ -9,11 +9,52 @@
   <body>
     <main class="popup">
       <h1>SolveCue</h1>
-      <p id="queue-count" class="queue-count">Loading…</p>
-      <p id="empty-state" class="placeholder" hidden>
-        No reviews due today.
-      </p>
-      <ul id="problem-list" class="problem-list"></ul>
+
+      <section class="settings" aria-labelledby="settings-heading">
+        <h2 id="settings-heading">Settings</h2>
+        <div class="settings-grid">
+          <label class="field">
+            <span class="field-label">Daily target cap</span>
+            <input
+              id="daily-cap"
+              type="number"
+              min="1"
+              max="50"
+              step="1"
+            />
+          </label>
+          <label class="field">
+            <span class="field-label">Day rollover hour</span>
+            <input
+              id="rollover-hour"
+              type="number"
+              min="0"
+              max="23"
+              step="1"
+            />
+          </label>
+        </div>
+        <p class="settings-hint">Reviews due before this hour count as the previous day.</p>
+      </section>
+
+      <section class="queue" aria-labelledby="queue-heading">
+        <h2 id="queue-heading">Due today</h2>
+        <p id="queue-count" class="queue-count">Loading…</p>
+        <p id="empty-state" class="placeholder" hidden>
+          No reviews due today.
+        </p>
+        <ul id="problem-list" class="problem-list"></ul>
+      </section>
+
+      <section
+        id="paused-section"
+        class="paused"
+        aria-labelledby="paused-heading"
+        hidden
+      >
+        <h2 id="paused-heading">Paused</h2>
+        <ul id="paused-list" class="problem-list"></ul>
+      </section>
     </main>
     <script type="module" src="./popup.ts"></script>
   </body>

@@ -1,5 +1,10 @@
 import { review } from "../scheduler/review";
-import type { Clock, Rng } from "../scheduler/scheduler";
+import {
+  buildCalendarLoad,
+  placeReview,
+  type Clock,
+  type Rng,
+} from "../scheduler/scheduler";
 import type { Grade, LeetCodeTag, Problem } from "../types/domain";
 import type { StorageAdapter } from "../storage/storage-adapter";
 import { INITIAL_EASE } from "../scheduler/review";
@@ -45,6 +50,18 @@ export async function captureProblem(
   };
 
   const reviewed = review(problem, grade, now, rng);
-  await storage.saveProblem(reviewed);
-  return reviewed;
+  const settings = await storage.getSettings();
+  const others = (await storage.listProblems()).filter(
+    (entry) => entry.id !== reviewed.id,
+  );
+  const placed = placeReview(
+    reviewed,
+    buildCalendarLoad(others),
+    settings.dailyTargetCap,
+    now,
+    rng,
+  );
+
+  await storage.saveProblem(placed);
+  return placed;
 }

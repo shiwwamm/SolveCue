@@ -127,4 +127,42 @@ describe("captureProblem", () => {
     expect(updated.currentInterval).toBe(14);
     expect(updated.reviewHistory).toHaveLength(2);
   });
+
+  it("load-balances a capture onto the next open day when the soft date is full", async () => {
+    const storage = createStorageAdapter(createFakeStorage());
+    await storage.saveSettings({
+      dailyTargetCap: 1,
+      dayRolloverHour: 4,
+      timezone: "local",
+    });
+
+    await captureProblem(
+      storage,
+      {
+        id: "first",
+        title: "First",
+        url: "https://leetcode.com/problems/first/",
+        leetcodeTag: "Easy",
+      },
+      "easy",
+      fixedNow,
+      noFuzz,
+    );
+
+    const second = await captureProblem(
+      storage,
+      {
+        id: "second",
+        title: "Second",
+        url: "https://leetcode.com/problems/second/",
+        leetcodeTag: "Easy",
+      },
+      "easy",
+      fixedNow,
+      noFuzz,
+    );
+
+    expect(second.softDueDate).toBe("2026-07-29");
+    expect(second.hardDueDate).toBe("2026-07-31");
+  });
 });

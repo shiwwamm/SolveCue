@@ -29,7 +29,7 @@ describe("placeReview", () => {
     const problem = createProblem();
     const calendarLoad = { "2026-07-28": 3 };
 
-    const result = placeReview(problem, calendarLoad, 8, fixedNow, noFuzz);
+    const result = placeReview(problem, calendarLoad, 8, 4, fixedNow, noFuzz);
 
     expect(result.softDueDate).toBe("2026-07-28");
   });
@@ -46,7 +46,7 @@ describe("placeReview", () => {
       "2026-07-31": 2,
     };
 
-    const result = placeReview(problem, calendarLoad, 8, fixedNow, noFuzz);
+    const result = placeReview(problem, calendarLoad, 8, 4, fixedNow, noFuzz);
 
     expect(result.softDueDate).toBe("2026-07-30");
   });
@@ -63,7 +63,7 @@ describe("placeReview", () => {
       "2026-07-31": 11,
     };
 
-    const result = placeReview(problem, calendarLoad, 8, fixedNow, noFuzz);
+    const result = placeReview(problem, calendarLoad, 8, 4, fixedNow, noFuzz);
 
     expect(result.softDueDate).toBe("2026-07-30");
   });
@@ -83,7 +83,7 @@ describe("placeReview", () => {
       "2026-07-23": 0,
     };
 
-    const result = placeReview(problem, calendarLoad, 8, fixedNow, noFuzz);
+    const result = placeReview(problem, calendarLoad, 8, 4, fixedNow, noFuzz);
 
     expect(result.softDueDate).toBe("2026-07-22");
   });
@@ -105,9 +105,30 @@ describe("placeReview", () => {
       problem,
       calendarLoad,
       8,
+      4,
       fixedNow,
       alwaysFuzzHigh,
     );
+
+    expect(result.softDueDate).toBe("2026-07-22");
+  });
+
+  it("schedules a failure relative to the scheduling day, not the calendar date", () => {
+    // 3:59am local, before the 4am rollover, so the scheduling day is still
+    // the previous calendar day (July 21). A failure must return on the next
+    // scheduling day (July 22) — not calendar-date + 1 (July 23).
+    const beforeRollover = () => new Date(2026, 6, 22, 3, 59);
+    const problem = createProblem({
+      currentInterval: 1,
+      repetitions: 0,
+      softDueDate: "2026-07-22",
+      hardDueDate: "2026-07-23",
+      reviewHistory: [
+        { date: "2026-07-22T03:59:00.000Z", grade: "couldnt-solve" },
+      ],
+    });
+
+    const result = placeReview(problem, {}, 8, 4, beforeRollover, noFuzz);
 
     expect(result.softDueDate).toBe("2026-07-22");
   });

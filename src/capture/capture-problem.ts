@@ -58,6 +58,7 @@ export async function captureProblem(
     reviewed,
     buildCalendarLoad(others),
     settings.dailyTargetCap,
+    settings.dayRolloverHour,
     now,
     rng,
   );

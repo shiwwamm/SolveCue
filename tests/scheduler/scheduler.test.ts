@@ -49,7 +49,7 @@ describe("scheduler module surface", () => {
     } satisfies Problem;
 
     expect(
-      placeReview(problem, {}, 8, fixedNow, noFuzz).softDueDate,
+      placeReview(problem, {}, 8, 4, fixedNow, noFuzz).softDueDate,
     ).toBe("2026-07-28");
   });
 

@@ -68,3 +68,86 @@
   border-radius: 6px;
   padding: 6px 10px;
 }
+
+#solvecue-review-root {
+  all: initial;
+  font-family: system-ui, sans-serif;
+}
+
+#solvecue-review-root .solvecue-review-panel {
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  z-index: 2147483646;
+  width: 260px;
+  max-height: 60vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+}
+
+#solvecue-review-root .solvecue-review-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#solvecue-review-root .solvecue-review-heading {
+  font-size: 13px;
+  font-weight: 600;
+  color: #444;
+}
+
+#solvecue-review-root .solvecue-review-close {
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  line-height: 1;
+  color: #888;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+#solvecue-review-root .solvecue-review-close:hover {
+  color: #1a1a1a;
+}
+
+#solvecue-review-root .solvecue-review-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#solvecue-review-root .solvecue-review-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+}
+
+#solvecue-review-root .solvecue-review-link {
+  color: #1a1a1a;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+#solvecue-review-root .solvecue-review-link:hover {
+  text-decoration: underline;
+}
+
+#solvecue-review-root .solvecue-review-meta {
+  font-size: 11px;
+  color: #666;
+}

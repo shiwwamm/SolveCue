@@ -25,6 +25,11 @@ export interface Problem {
   status: ProblemStatus;
 }
 
+export interface ReviewPanelDismissState {
+  schedulingDay: string;
+  queueIds: string[];
+}
+
 export interface Settings {
   dailyTargetCap: number;
   dayRolloverHour: number;

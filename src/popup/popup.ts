@@ -1,25 +1,10 @@
 import { createChromeStorageAdapter } from "../storage/storage-adapter";
 import { schedulingDay } from "../scheduler/dates";
 import { buildTodayQueue } from "../scheduler/scheduler";
+import { reviewLabel } from "../review-label";
 import type { Problem } from "../types/domain";
 
 const storage = createChromeStorageAdapter(chrome.storage.local);
-
-function reviewLabel(problem: Problem, today: string): string {
-  if (
-    problem.reviewHistory.at(-1)?.grade === "couldnt-solve" &&
-    problem.softDueDate != null &&
-    problem.softDueDate <= today
-  ) {
-    return "Failed — due today";
-  }
-
-  if (problem.softDueDate != null && problem.softDueDate < today) {
-    return `Overdue since ${problem.softDueDate}`;
-  }
-
-  return `Due today · ${problem.leetcodeTag}`;
-}
 
 function renderTodayQueue(problems: Problem[], today: string): void {
   const list = document.getElementById("problem-list");

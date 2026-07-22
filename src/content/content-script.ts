@@ -7,6 +7,7 @@ import {
   parseProblemSlug,
   parseProblemTitle,
 } from "./parse-problem-page";
+import { mountReviewPanel } from "./review-panel";
 
 const GRADE_OPTIONS: Array<{ grade: Grade; label: string }> = [
   { grade: "couldnt-solve", label: "Couldn't solve" },
@@ -97,8 +98,13 @@ marker.name = "solvecue-content-script";
 marker.content = "active";
 document.head.appendChild(marker);
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", mountCaptureUi);
-} else {
+function mountUi(): void {
   mountCaptureUi();
+  mountReviewPanel();
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", mountUi);
+} else {
+  mountUi();
 }
